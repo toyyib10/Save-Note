@@ -1,5 +1,5 @@
 const signup = (req, res) => {
-  res.send()
+  let {firstName,lastName,email,password} = req.body
 };
 
 module.exports = { signup };
