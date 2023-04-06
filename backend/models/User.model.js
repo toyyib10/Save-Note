@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
 let userSchema = mongoose.Schema({
   firstName: { type: String, required: true },
@@ -9,10 +9,10 @@ let userSchema = mongoose.Schema({
   password: { type: String, required: true }
 });
 
-const saltRound = process.env.ROUNDS;
+let saltRound = 10;
 
 userSchema.pre("save", function (next) {
-  bcrypt.hash(this.password, saltRound, (res,hashedPassword) => {
+  bcrypt.hash(this.password, saltRound, (err, hashedPassword) => {
     if (err) {
       console.log(err)
     } else {
@@ -20,7 +20,7 @@ userSchema.pre("save", function (next) {
       next()
     }
   })
-})
+});
 
 let userModel = mongoose.model("user_tb", userSchema);
 
