@@ -24,4 +24,12 @@ const signup = (req, res) => {
   } )
 };
 
-module.exports = { signup };
+const verify = () => {
+
+}
+
+const signin = (req,res) => {
+  
+}
+
+module.exports = { signup ,verify ,signin };
