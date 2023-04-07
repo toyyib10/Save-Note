@@ -13,14 +13,22 @@ let saltRound = 10;
 
 userSchema.pre("save", function (next) {
   bcrypt.hash(this.password, saltRound, (err, hashedPassword) => {
-    if (err) {
-      console.log(err)
-    } else {
+    if (!err) {
       this.password = hashedPassword;
       next()
     }
   })
 });
+
+userSchema.methods.validatePassword = function (password,callback) {
+  bcrypt.compare(password, this.password, (err,result) => {
+    if (!err) {
+      callback(err,result)
+    } else {
+      next()
+    }
+  })
+}
 
 let userModel = mongoose.model("user_tb", userSchema);
 
