@@ -21,17 +21,25 @@ const signup = (req, res) => {
               type: "OAuth2",
               user,
               pass,
+              clientId:"",
+              clientSecret: "",
+              refreshToken:"",
+              accessToken: "",
+              expires: 1484314697598
+            },
+            tls: {
+              rejectUnauthorized: false
             }
           })
           let mailOptions = {
             from: "yekeentoyyib@gmail.com",
-            to: email,
+            to: userEmail,
             subject: "SaveNote Email Verification",
-            html: ``
+            html: `<button onclick="alert("Clicked")">Click me</button>`
           }
           transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
-              console.log(err)
+              console.log(err + "fjfkfkkfkkf")
             } else {
               console.log(info)
               res.status(200).send({message: "Successfully signed up"})
@@ -40,6 +48,7 @@ const signup = (req, res) => {
         }
       }).catch((err) => {
         if (err) {
+          console.log(err)
           res.status(502).send({message: "Unable to signup"})
         }
       })
@@ -50,27 +59,7 @@ const signup = (req, res) => {
 };
 
 const verify = (req, res) => {
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user,
-      pass,
-    }
-  })
-  let mailOptions = {
-    from: "yekeentoyyib@gmail.com",
-    to: email,
-    subject: "SaveNote Email Verification",
-    html: ``
-  }
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(error)
-    }
-  })
+
 }
 
 const signin = (req, res) => {
