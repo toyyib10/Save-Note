@@ -3,6 +3,10 @@ const nodemailer = require("nodemailer");
 
 const user = process.env.MAIL_USERNAME;
 const pass = process.env.PASSWORD;
+const clientId = process.env.clientId;
+const clientSecret = process.env.clientSecret;
+const refreshToken = process.env.refreshToken;
+const accessToken = process.env.accessToken;
 
 const signup = (req, res) => {
   let userEmail = req.body.email;
@@ -21,10 +25,10 @@ const signup = (req, res) => {
               type: "OAuth2",
               user,
               pass,
-              clientId:"",
-              clientSecret: "",
-              refreshToken:"",
-              accessToken: "",
+              clientId,
+              clientSecret,
+              refreshToken,
+              accessToken,
               expires: 1484314697598
             },
             tls: {
