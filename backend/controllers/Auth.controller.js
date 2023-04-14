@@ -3,10 +3,7 @@ const nodemailer = require("nodemailer");
 
 const user = process.env.MAIL_USERNAME;
 const pass = process.env.PASSWORD;
-const clientId = process.env.clientId;
-const clientSecret = process.env.clientSecret;
-const refreshToken = process.env.refreshToken;
-const accessToken = process.env.accessToken;
+const senderEmail = process.env.SENDER_EMAIL;
 
 const signup = (req, res) => {
   let userEmail = req.body.email;
@@ -20,40 +17,37 @@ const signup = (req, res) => {
       form.save().then((result) => {
         if (result) {
           let transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              type: "OAuth2",
-              user,
-              pass,
-              clientId,
-              clientSecret,
-              refreshToken,
-              accessToken,
-              expires: 1484314697598
-            },
+            host: "smtp-mail.outlook.com",
+            secureConnection: false,
+            port: 587,
             tls: {
+              ciphers: "SSLv3",
               rejectUnauthorized: false
+            },
+            auth: {
+              user,
+              pass
             }
           })
           let mailOptions = {
-            from: "yekeentoyyib@gmail.com",
+            from: senderEmail,
             to: userEmail,
-            subject: "SaveNote Email Verification",
-            html: `<button onclick="alert("Clicked")">Click me</button>`
+            subject: "SaveNote verification",
+            html:'<button onclick="alert("4")">Click</button>'
           }
-          transporter.sendMail(mailOptions, (err, info) => {
+          transporter.sendMail(mailOptions, (err, result) => {
             if (err) {
-              console.log(err + "fjfkfkkfkkf")
+              console.log(err)
             } else {
-              console.log(info)
-              res.status(200).send({message: "Successfully signed up"})
+              res.status(200).send({ message: "Successfully signed up" })
             }
           })
+          
         }
       }).catch((err) => {
         if (err) {
           console.log(err)
-          res.status(502).send({message: "Unable to signup"})
+          res.status(409).send({message: "Email or Phone number already exist"})
         }
       })
     }
