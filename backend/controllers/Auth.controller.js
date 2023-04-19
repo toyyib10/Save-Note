@@ -4,11 +4,27 @@ const nodemailer = require("nodemailer");
 const user = process.env.MAIL_USERNAME;
 const pass = process.env.PASSWORD;
 const senderEmail = process.env.SENDER_EMAIL;
+const port = process.env.EMAIL_PORT;
+const host = process.env.HOST;
+
+let transporter = nodemailer.createTransport({
+  host,
+  secureConnection: false,
+  port,
+  tls: {
+    ciphers: "SSLv3",
+    rejectUnauthorized: false
+  },
+  auth: {
+    user,
+    pass
+  }
+})
 
 const signup = (req, res) => {
   let userEmail = req.body.email;
   let userNumber = req.body.phoneNumber;
-  let form = new userModel(req.body)
+  let form = new userModel(req.body);
 
   userModel.find({ email: userEmail, phoneNumber:userNumber }).then( (result) => {
     if (result.data > 0) {
@@ -16,24 +32,19 @@ const signup = (req, res) => {
     } else {
       form.save().then((result) => {
         if (result) {
-          let transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com",
-            secureConnection: false,
-            port: 587,
-            tls: {
-              ciphers: "SSLv3",
-              rejectUnauthorized: false
-            },
-            auth: {
-              user,
-              pass
-            }
-          })
           let mailOptions = {
             from: senderEmail,
             to: userEmail,
             subject: "SaveNote verification",
-            html:'<button onclick="alert("4")">Click</button>'
+            html:`
+              <div style="border:0.5px solid rgb(207, 204, 204); border-radius: 5px; display:flex; justify-content:center; padding-top: 10px; flex-direction: column; align-items:center;">
+                <h1 style="margin-bottom: 25px;">SaveNote</h1>
+                <p style="font-size: large;">SaveNote email verification</p> 
+                _____________________________________________
+                <p style="font-size: large; margin-top: 20px;">Click the link below to verify ${userEmail} email account</p>
+                <a href="http://" style="margin-bottom: 15px;">Verify email</a>
+              </div>
+            `
           }
           transporter.sendMail(mailOptions, (err, result) => {
             if (err) {
@@ -41,8 +52,7 @@ const signup = (req, res) => {
             } else {
               res.status(200).send({ message: "Successfully signed up" })
             }
-          })
-          
+          })  
         }
       }).catch((err) => {
         if (err) {
