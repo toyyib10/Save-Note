@@ -4,22 +4,8 @@ const nodemailer = require("nodemailer");
 const user = process.env.MAIL_USERNAME;
 const pass = process.env.PASSWORD;
 const senderEmail = process.env.SENDER_EMAIL;
-const port = process.env.EMAIL_PORT;
-const host = process.env.HOST;
 
-let transporter = nodemailer.createTransport({
-  host,
-  secureConnection: false,
-  port,
-  tls: {
-    ciphers: "SSLv3",
-    rejectUnauthorized: false
-  },
-  auth: {
-    user,
-    pass
-  }
-})
+
 
 const signup = (req, res) => {
   let userEmail = req.body.email;
@@ -32,6 +18,20 @@ const signup = (req, res) => {
     } else {
       form.save().then((result) => {
         if (result) {
+          let id = result._id.valueOf();
+          let transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com",
+            port:587,
+            secure: false,
+            tls: {
+              ciphers: "SSLv3",
+              rejectUnauthorized: false
+            },
+            auth: {
+              user,
+              pass
+            }
+          })
           let mailOptions = {
             from: senderEmail,
             to: userEmail,
@@ -42,7 +42,7 @@ const signup = (req, res) => {
                 <p style="font-size: large;">SaveNote email verification</p> 
                 _____________________________________________
                 <p style="font-size: large; margin-top: 20px;">Click the link below to verify ${userEmail} email account</p>
-                <a href="http://" style="margin-bottom: 15px;">Verify email</a>
+                <a href="http://localhost:7000/auth/verify?_id=${id}" style="margin-bottom: 15px;">Verify email</a>
               </div>
             `
           }
@@ -62,12 +62,21 @@ const signup = (req, res) => {
       })
     }
   }).catch((err) => {
-    res.status(502).send({message: "Unable to fetch data"})
+    res.status(502).send({message: "Unable to connect database"})
   } )
 };
 
 const verify = (req, res) => {
-
+  const _id = req.body.id;
+  userModel.findByIdAndUpdate(_id,{verification:"true"}).then((result) => {
+    if (result) {
+      res.status(200).send({message:"verification successful"})
+    }
+  }).catch((err) => {
+    if (err) {
+      console.log(err)
+    }
+  })
 }
 
 const signin = (req, res) => {
