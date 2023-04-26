@@ -10,7 +10,8 @@ const Signup = () => {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
+      phoneNumber:"",
+      password: ""
     },
     onSubmit: (values) => {
       console.log(values)
@@ -18,6 +19,7 @@ const Signup = () => {
     validationSchema: yup.object({
       firstName: yup.string().required("This field is required"),
       lastName: yup.string().required("This field is required"),
+      phoneNumber: yup.string().required("This field is required"),
       email: yup
         .string()
         .required("This field is required")
@@ -33,33 +35,37 @@ const Signup = () => {
   return (
     <>
       <div className='h-100'>
-        <div className='col-7 p-3 d-flex align-items-center justify-content-center flex-column'>
+        <div className='col-7 p-3 d-flex flex-column align-items-center justify-content-center '>
           <h1 className='text-primary mb-5'>Create an account</h1>
           <form className='col-12 d-flex align-items-center justify-content-center flex-column' onSubmit={formik.handleSubmit}>
-            <div className="form-floating mb-4 col-10">
+            <div className="form-floating mb-3 col-10">
               <input type="text" name='firstName' className="form-control" id="floatingInput" placeholder="First Name" onChange={formik.handleChange} onBlur={formik.handleBlur} required/>
               <label for="floatingInput">First Name</label>
             </div>
-            <div className="form-floating mb-4 col-10">
+            <div className="form-floating mb-3 col-10">
               <input type="text" className="form-control" name='lastName' id="floatingInput" placeholder="Last Name" onChange={formik.handleChange} onBlur={formik.handleBlur} required/>
               <label for="floatingInput">Last Name</label>
             </div>
-            <div className="form-floating mb-4 col-10">
+            <div className="form-floating mb-3 col-10">
+              <input type="text" className="form-control" name='phoneNumber' id="floatingInput" placeholder="Phone Number" onChange={formik.handleChange} onBlur={formik.handleBlur} required/>
+              <label for="floatingInput">Phone Number</label>
+            </div>
+            <div className="form-floating mb-3 col-10">
               <input type="email" className="form-control" name='email' id="floatingInput" placeholder="Email Address" onChange={formik.handleChange} onBlur={formik.handleBlur} required/>
               <label for="floatingInput">Email Address</label>
             </div>
-            <div className="form-floating mb-4 col-10">
+            <div className="form-floating mb-3 col-10">
               <input type="password" className="form-control" name='password' id="floatingInput" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur} required/>
               <label for="floatingInput">Password</label>
             </div>
-            <div className='mt-5'>
+            <div className='mt-4'>
               <button className='btn border-primary shadow btn-white px-3 fs-4' type='submit'> Create an account</button>
             </div>
           </form>
           <p className='mt-3'>Already have account? <Link to="/auth/signin">Signin</Link></p>
         </div>
         <div className='col-5'>
-
+          
         </div>
       </div>
     </>
