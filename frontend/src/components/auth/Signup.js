@@ -34,7 +34,7 @@ const Signup = () => {
 
   return (
     <>
-      <div className='h-100'>
+      <div className='h-100 d-flex'>
         <div className='col-7 p-3 d-flex flex-column align-items-center justify-content-center '>
           <h1 className='text-primary mb-5'>Create an account</h1>
           <form className='col-12 d-flex align-items-center justify-content-center flex-column' onSubmit={formik.handleSubmit}>
@@ -65,7 +65,7 @@ const Signup = () => {
           <p className='mt-3'>Already have account? <Link to="/auth/signin">Signin</Link></p>
         </div>
         <div className='col-5'>
-          
+          <img style={{height:"100vh"}} width="100%" src="https://images.pexels.com/photos/4065892/pexels-photo-4065892.jpeg" alt=''/>
         </div>
       </div>
     </>

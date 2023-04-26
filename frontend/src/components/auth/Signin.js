@@ -28,7 +28,7 @@ const Signin = () => {
 
   return (
     <>
-      <div className='h-100 d-flex '>
+      <div className='h-100 d-flex'>
         <div className='col-7 p-3 d-flex align-items-center flex-column justify-content-center'>
           <h1 className='text-primary mb-5'>Sign in</h1>
           <form className='col-12 d-flex align-items-center justify-content-center flex-column' onSubmit={formik.handleSubmit}>
@@ -45,7 +45,7 @@ const Signin = () => {
             </div>
           </form>
         </div>
-        <div className='col-5 h-100'>
+        <div className='col-5'>
           <img style={{height:"100vh"}} width="100%" src="https://images.pexels.com/photos/4065892/pexels-photo-4065892.jpeg" alt=''/>
         </div>
       </div>
